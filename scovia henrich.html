@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bakery Cost Calculator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: orange;
+            margin-bottom: 10px;
+        }
+        p.intro {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+        }
+        .product {
+            margin: 20px 0;
+            padding: 15px;
+            background: violet;
+            border-radius: 10px;
+            border-left: 5px solid #3498db;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px dotted #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+        input[type="number"]:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin-top: 25px;
+            background: #e74c3c;
+            color: green;
+            border: dashed green;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #c0392b;
+        }
+        #resultArea {
+            margin-top: 30px;
+            padding: 20px;
+            background: #2c3e50;
+            color: white;
+            border-radius: 10px;
+            font-size: 22px;
+            text-align: center;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+ technoloy;
+        }
+        .error {
+            background: #e74c3c !important;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🛒 Local Shop Cost Calculator</h1>
+    <p class="intro">Enter the quantity of each item you want to buy</p>
+
+    <div class="product">
+        <label for="bread">Bread (3,000 UGX each)</label>
+        <input type="number" id="bread" min="0" placeholder="Enter number of breads">
+    </div>
+
+    <div class="product">
+        <label for="milk">Milk (2,500 UGX each)</label>
+        <input type="number" id="milk" min="0" placeholder="Enter number of milk packets">
+    </div>
+
+    <div class="product">
+        <label for="eggs">Eggs (500 UGX each)</label>
+        <input type="number" id="eggs" min="0" placeholder="Enter number of eggs">
+    </div>
+
+    <button id="calculateBtn">Calculate Total</button>
+
+    <div id="resultArea">Your total will appear here after clicking the button</div>
+</div>
+
+<script>
+    // Prices (in UGX)
+    const PRICE_BREAD = 3000;
+    const PRICE_MILK  = 2500;
+    const PRICE_EGGS  = 500;
+
+    // DOM elements
+    const breadInput = document.getElementById('bread');
+    const milkInput  = document.getElementById('milk');
+    const eggsInput  = document.getElementById('eggs');
+    const calcBtn    = document.getElementById('calculateBtn');
+    const resultArea = document.getElementById('resultArea');
+
+    calcBtn.addEventListener('click', function() {
+        // Reset previous styling
+        resultArea.classList.remove('error');
+
+        // Retrieve and clean input values
+        const breadQty = parseFloat(breadInput.value.trim()) || 0;
+        const milkQty  = parseFloat(milkInput.value.trim())  || 0;
+        const eggsQty  = parseFloat(eggsInput.value.trim())  || 0;
+
+        // Validation: negative or non-numeric values
+        if (breadQty < 0 || milkQty < 0 || eggsQty < 0) {
+            resultArea;
+            return;
+        }
+         .numerical form
+        if (isNaN(breadQty) || isNaN(milkQty) || isNaN(eggsQty)) {
+            resultArea;
+            return;
+        }
+
+        .calculate totals
+        const totalBread = breadQty * PRICE_BREAD;
+        const totalMilk  = milkQty  * PRICE_MILK;
+        const totalEggs  = eggsQty  * PRICE_EGGS;
+        const grandTotal = totalBread + totalMilk + totalEggs;
+
+        // Check if user entered nothing at all
+        if (breadQty === 0 && milkQty === 0 && eggsQty === 0) {
+            resultArea.classList.add('error');
+            resultArea.textContent = "⚠️ You haven't selected any items yet!";
+            return;
+        }
+
+        .format numbers
+        const formatter = new Intl.NumberFormat('en-UG');
+
+        // Details
+        let details = "";
+        if (breadQty > 0) details += `${breadQty} Bread × ${formatter.format(PRICE_BREAD)} UGX = ${formatter.format(totalBread)} UGX<br>`;
+        if (milkQty  > 0) details += `${milkQty} Milk × ${formatter.format(PRICE_MILK)} UGX = ${formatter.format(totalMilk)} UGX<br>`;
+        if (eggsQty  > 0) details += `${eggsQty} Egg(s) × ${formatter.format(PRICE_EGGS)} UGX = ${formatter.format(totalEggs)} UGX<br>`;
+
+        resultArea.innerHTML = `
+            <strong>🧾 Your Order Summary</strong><br><br>
+            ${details}<br>
+            <strong>Total Amount Payable: ${formatter.format(grandTotal)} UGX</strong>
+        `;
+    });
+</script>
+
+</body>
+</html>
